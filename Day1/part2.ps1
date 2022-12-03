@@ -1,5 +1,5 @@
 $elfTotal = 0
-$elves = $()
+$elves = @()
 
 foreach($line in Get-Content .\input1.txt) {
     
@@ -8,17 +8,14 @@ foreach($line in Get-Content .\input1.txt) {
         $elfTotal+= [int]$line
     }
     else {
-        #store which elf has most calories
-        if ($elfTotal -gt $maxTotal)
-        {
-            $maxElf = $currentElf
-            $maxTotal = $elfTotal
-        }
+        $elves+= $elfTotal
 
-        #reset for next elf
+        #reset for next elf    
         $elfTotal = 0
-        $currentElf++
     }
 }
 
-Write-Output "Elf with most calories is $maxElf with $maxTotal"
+$elves = $elves | Sort-Object -Descending 
+$top3Elves = $elves[0] + $elves[1] + $elves[2]
+
+Write-Output "Top3 Elf total is $top3Elves"
